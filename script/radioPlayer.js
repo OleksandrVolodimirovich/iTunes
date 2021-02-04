@@ -13,49 +13,49 @@ export const radioPlayerInit = () => {
 
     radioStop.disabled = true; //блокуємо кнопку play
 
-    const changeIconPlay = () => {  
-        if (audio.paused) {
-            radio.classList.remove('play');
-            radioStop.classList.add('fa-play');
-            radioStop.classList.remove('fa-stop');
-        } else {
-            radio.classList.add('play');
-            radioStop.classList.add('fa-stop');
-            radioStop.classList.remove('fa-play');
+    const changeIconPlay = () => {  //зміна іконки
+        if (audio.paused) {  //якщо пауза тоді
+            radio.classList.remove('play'); //видалення анімації(крутиться логотип)
+            radioStop.classList.add('fa-play'); //добавляти клас fa-play
+            radioStop.classList.remove('fa-stop'); //удаляти клас fa-stop
+        } else {  //інакше
+            radio.classList.add('play'); //добавленнялення анімації(крутиться логотип)
+            radioStop.classList.add('fa-stop'); //добавляти fa-stop
+            radioStop.classList.remove('fa-play'); //удаляти клас fa-play
         }
     };
 
-    const selectItem = elem => {
-        radioItem.forEach(item => item.classList.remove('select'));
-        elem.classList.add('select');
+    const selectItem = elem => { //ф-ція запуску select
+        radioItem.forEach(item => item.classList.remove('select')); //при зміні радіостанції видаляє сіру оводку навколо логотипу
+        elem.classList.add('select'); //добавляє сіру оводку навколо логотипу
     }
 
 
     radioNavigation.addEventListener('change', event => {  //ф-ція вибору радіостанцій
-        const target = event.target;                        //зробимо константу для зручності, для подальшого дублювання
-        const parrent = target.closest('.radio-item');
-        selectItem(parrent);
+        const target = event.target;   //зробимо константу для зручності, для подальшого дублювання
+        const parrent = target.closest('.radio-item'); //шукає потрібний нам клас в цілому документі
+        selectItem(parrent); //виклик сіру оводку
 
-        const title = parrent.querySelector('.radio-name').textContent;
-        radioHeaderBig.textContent = title;
+        const title = parrent.querySelector('.radio-name').textContent; //отримуємо текст назву радіостанції
+        radioHeaderBig.textContent = title;  //текст 'вибір радіостанції' змінюєм на назву радіостанції 
 
-        const urlImg = parrent.querySelector('.radio-img').src;
-        radioCoverImg.src = urlImg;
+        const urlImg = parrent.querySelector('.radio-img').src; //отримуєму картинку радіостанції
+        radioCoverImg.src = urlImg; //змінюємо анімаційну картинку на картинку радіо
 
 
-        radioStop.disabled = false;        
+        radioStop.disabled = false;    //розблокуємо кнопку play для вітворення    
         audio.src = target.dataset.radioStantion;   //при кліку на радіо активуємо 
-        audio.play();
-        changeIconPlay();
+        audio.play(); //запуск play
+        changeIconPlay(); //виклик ф-ції для зміни іконки
     });
 
-    radioStop.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
+    radioStop.addEventListener('click', () => {  //ф-ція для стоп радіо
+        if (audio.paused) {  //умова паузи
+            audio.play();  //якщо музика на паузі тоді play
         } else {
-            audio.pause();
+            audio.pause(); //якщо ні тоді pause
         }
-        changeIconPlay();
+        changeIconPlay(); //виклик ф-ції для зміни іконки
     });
 
 };
